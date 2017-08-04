@@ -1,0 +1,815 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style type="text/css">
+#eagleWizard {
+	display:block;
+	width:500px;
+	height:400px;
+	border:1px red solid;
+	position:relative;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+}
+
+#ewfirstpage,#ewslideswing,#ewtipology,#ewlengthheight,#ewresults,#ewwidthlengthnext {
+display:none;
+}
+
+.ewbuttonscontainer {
+	position:absolute;
+	top:350px;
+}
+
+.ewwiztable {
+	border:none !important;
+}
+
+/*gate tipology - uses existing graphics, to be changed*/
+
+.ewTipologyResidential {
+	display:block;
+	width:240px;
+	height:220px;
+	background:url('images/gate_tipology.png') 0 0 no-repeat;
+	overflow:hidden;
+}
+
+
+.ewTipologyCommercial {
+	display:block;
+	width:240px;
+	height:220px;
+	background:url('images/gate_tipology.png') 0 -220px no-repeat;
+	overflow:hidden;
+}
+
+
+.ewOrientationSlide {
+	display:block;
+	width:240px;
+	height:220px;
+	background:url('images/gate_orientation.png') 0 0 no-repeat;
+	overflow:hidden;
+}
+
+
+.ewOrientationSwing {
+	display:block;
+	width:240px;
+	height:220px;
+	background:url('images/gate_orientation.png') 0 -220px no-repeat;
+	overflow:hidden;
+}
+
+
+
+.ewtipologyRB {
+    height: 500px;
+    width: 240px;
+}
+
+
+h3.ewwiztitle {
+	border-bottom: 1px solid #EEB949;
+    color: navy;
+    font-family: Tahoma,Verdana,Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+   /* text-transform: uppercase;*/
+}
+
+
+.bigcomment {
+    border-bottom: 1px solid #EEB949;
+    color: #444444;
+    font-family: Tahoma,Verdana,Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script><!-- liveValidation -->
+
+</head>
+<body>
+
+<!-- for referral the various result layers -->
+<!-- 
+				<div id="ewei"></div>
+				<div id="eweii"></div>
+				<div id="ewe100"></div>
+				<div id="ewe100dc"></div>
+				<div id="ewe200"></div>
+				<div id="ewe200dc"></div>
+				<div id="ewe200dchd"></div>
+				<div id="ewe2001hp"></div>
+				<div id="ewe1000dc"></div>
+				<div id="ewe1000fsf"></div>
+				<div id="ewe1000fsc"></div>
+				<div id="ewe2000"></div>
+				<div id="ewe2000fsf"></div>
+				<div id="ewe2000fsc"></div>
+				<div id="ewe2000dc"></div>
+				<div id="ewe2000apt"></div>
+				<div id="ewe20001hp"></div>
+				<div id="ewe2000dchd"></div>
+				<div id="ewe2000apt15hp"></div>
+
+
+-->
+
+
+
+
+<script type="text/javascript">
+<!--
+
+	resultLayers = ['ewei',
+					'eweii',
+					'ewe100',
+					'ewe100dc',
+					'ewe100dchd',
+					'ewe200',
+					'ewe200dc',
+					'ewe200dchd',
+					'ewe2001hp',
+					'ewe1000dc',
+					'ewe1000fsf',
+					'ewe1000fsc',
+					'ewe2000',
+					'ewe2000fsf',
+					'ewe2000fsc',
+					'ewe2000dc',
+					'ewe2000apt',
+					'ewe20001hp',
+					'ewe2000dchd',
+					'ewe2000apt15hp'];
+
+
+
+	$(document).ready(function(){	
+
+	
+		hideAllSteps();
+		hideAllResultLayers(resultLayers);
+		$('#ewfirstpage').show();
+		
+		$('#ewfirstnext').mousedown(function(e){
+		e.preventDefault();
+		showTipology();
+		}); //end 
+		
+		$('#ewtipologynext').mousedown(function(e){
+		e.preventDefault();
+		showWidthHeight();
+		}); //end 
+		
+		$('#ewtipologyprev').mousedown(function(e){
+		e.preventDefault();
+		showFirstPage();
+		}); //end 
+		
+		$('#ewwidthlengthprev').mousedown(function(e){
+		e.preventDefault();
+		showSlideSwing();
+		}); //end 
+		
+		$("input[name=ewinstallation]").click(function(){
+			var ewinstVal = $("input[name=ewinstallation]:checked").val();
+			console.log('ewinstval = '+ewinstVal);
+			showSlideSwing();
+		});//end
+		
+		$("input[name=eworientation]").click(function(){
+			var eworientVal = $("input[name=eworientation]:checked").val();
+			console.log('eworientval = '+eworientVal);
+			if(eworientVal =='slide'){
+				$('#ewslidelength').show();
+				$('#ewswinglength').hide();
+			} else {
+				$('#ewswinglength').show();
+				$('#ewslidelength').hide();
+			
+			} //end if
+			
+			showWidthLength();
+		});//end
+		
+		$("input[name=ewweight]").click(function(){
+			var ewWeightSel = $("input[name=ewweight]:checked").val();
+			var ewHeightSel = $("input[name=ewheight]:checked").val();
+			
+			checkHeightWeight(ewWeightSel,ewHeightSel);
+		
+		}); //end
+				
+		$("input[name=ewheight]").click(function(){
+			var ewWeightSel = $("input[name=ewweight]:checked").val();
+			var ewHeightSel = $("input[name=ewheight]:checked").val();
+			
+			checkHeightWeight(ewWeightSel,ewHeightSel);
+		
+		}); //end		
+		
+		$('#ewwidthlengthnext').mousedown(function(e){
+		e.preventDefault();
+		collectParseResults();
+
+		}); //end 
+		
+		
+		
+	}); //end doc ready
+	
+	
+	//---------------------------------------------------------------
+	//connected functions starts here
+	
+	
+	function checkHeightWeight(height,weight){
+		
+		console.log('checkHeightWeight called with params: height: '+height+' - weight: '+weight);
+		
+		if((height != '' && height != undefined) && (weight != '' && weight != undefined) ){
+			$('#ewwidthlengthnext').show();
+		
+		} else {
+			$('#ewwidthlengthnext').hide();
+		
+		} //end if
+	
+	} //end function
+	
+	
+	
+	function collectParseResults(){
+		//collection part
+		var tipology = $('input[name=ewinstallation]:checked').val();
+		var orientation = $('input[name=eworientation]:checked').val();
+		var width = $('input[name=ewheight]:checked').val();
+		var weight = $('input[name=ewweight]:checked').val();
+		
+		//define sentence vars
+		var tipologySentence;
+		var orientationSentence;
+		var widthSentence;
+		var weightSentence;
+		
+		
+		
+		var resultString = orientation+tipology+weight+width;
+		
+	//	console.log('final result is:'+resultString);
+		
+		
+		
+		switch(resultString){
+		//slide results
+		// commercial
+			case'slideach':
+			case'slideadh':
+			case'slideaeh':
+			case'slideaci':
+			case'slideadi':
+			case'slideaei':
+			case'slideacj':
+			case'slideadj':
+			case'slideaej':
+			//eagle-2000 and eagle-2000-dc
+				highlightResults(['ewe2000','ewe2000dc']);
+			break;
+		
+			case'slideakc':
+			case'slideakd':
+			case'slideake':
+			case'slideafk':
+			//eagle-2000-apt
+				highlightResults(['ewe2000apt']);
+			break;
+			
+			case'slideafh':
+			case'slideafi':
+			case'slideafj':
+			//eagle-2000-1hp and eagle-2000-dc-hd
+				highlightResults(['ewe20001hp','ewe2000dchd']);
+			break;
+		
+
+			
+			case'slideagh':
+			case'slideagi':
+			case'slideagj':
+			case'slideagk':
+			//eagle-2000-apt-1.5hp
+				highlightResults(['ewe2000apt15hp']);
+			break;
+		//residential
+			case'slidebch':
+			//eagle-I and eagle-1000-DC
+				highlightResults(['ewei','ewe1000dc']);			
+			break;
+
+			case'slidebci':
+			case'slidebdh':
+			case'slidebdi':
+			//eagle-1000-FSF and eagle-1000-fsc and eagle-1000-dc
+				highlightResults(['ewe1000fsf','ewe1000fsc','ewe1000dc']);			
+			break;			
+			
+			case'slidebcj':
+			case'slidebdj':
+			case'slidebeh':
+			case'slidebei':
+			case'slidebej':
+			
+			//eagle-2000-FSF and eagle-2000-fsc and eagle-2000-dc
+				highlightResults(['ewe2000fsf','ewe2000fsc','ewe2000dc']);			
+			break;	
+			
+			case'slidebck':
+			case'slidebdk':
+			case'slidebdk':
+			case'slidebek':
+			case'slidebfk':
+			//eagle-2000-apt
+				highlightResults(['ewe2000apt']);
+			break;			
+
+			case'slidebfh':
+			case'slidebfi':
+			case'slidebfj':
+			//eagle-2000-1hp and eagle-2000-dc-hd
+				highlightResults(['ewe2000apt','ewe2000dchd']);
+			break;			
+
+			case'slidebgh':
+			case'slidebgi':
+			case'slidebgj':
+			case'slidebgk':
+			//eagle-2000-apt-1.5hp
+				highlightResults(['ewe2000apt15hp']);
+			break;					
+			
+		//swing results
+		//commercial
+			case'swingacg':
+			case'swingach':
+			case'swingaci':
+			case'swingadg':
+			case'swingadh':
+			case'swingadi':
+			case'swingaeg':
+			case'swingaeh':
+			case'swingaei':
+			//eagle-200 and eagle-200-DC
+				highlightResults(['ewe200','ewe200dc']);
+			break;
+		
+			case'swingafg':
+			case'swingafh':
+			case'swingafi':
+			//eagle-200-1hp and eagle-200-DC-hd
+				highlightResults(['ewe2001hp','ewe200dchd']);
+			break;
+		
+		//residential
+
+			case'swingbcg':
+			//eagle-II and eagle-100-DC
+				highlightResults(['eweii','ewe100dc']);
+			break;
+			
+			case'swingbch':
+			case'swingbdg':
+			case'swingbdh':
+			//eagle-100 and eagle-100-DC
+				highlightResults(['ewe100','ewe100dc']);
+			break;			
+
+			case'swingbci':
+			case'swingbdi':
+			case'swingbeg':
+			case'swingbeh':
+			case'swingbei':
+			//eagle-200 and eagle-200-DC
+				highlightResults(['ewe200','ewe200dc']);
+			break;	
+
+			case'swingbfg':
+			case'swingbfh':
+			case'swingbfi':
+			//eagle-200-1hp and eagle-200-DC-hd
+				highlightResults(['ewe2001hp','ewe200dchd']);
+			break;
+			
+		} //end switch
+		
+		//compose the sentences
+		switch(tipology){
+			case 'a':
+			tipologySentence ='Commercial';
+			break;
+			
+			case 'b':
+			tipologySentence ='Residential';
+			break;			
+		
+		} //end switch
+		
+		switch(orientation){
+			case 'swing':
+			orientationSentence ='Swinging';
+			//nested switch for width
+		//	console.log('width is:'+width);
+			switch(width){
+			
+				case 'g':
+				var widthSentence = 'Up to 14 feet';
+				break;
+
+				case 'h':
+				var widthSentence = 'Between 14 and 18 feet';
+				break;
+
+				case 'i':
+				var widthSentence = 'Between 18 and 20 feet';
+				break;			
+			
+			} //end switch
+		//	console.log('widthSentence is:'+widthSentence);
+
+			//nested switch for weight
+		//	console.log('weight is:'+weight);
+			switch(weight){
+				case 'c':
+				var weightSentence = 'Up 300 pounds';
+				break;
+
+				case 'd':
+				var weightSentence = 'Between 300 and 600 pounds';
+				break;
+
+				case 'e':
+				var weightSentence = 'Between 600 and 750 pounds';
+				break;
+
+				case 'f':
+				var weightSentence = 'Between 750 and 1000 pounds';
+				break;				
+
+				
+			} //end switch
+		//	console.log('weightSentence is:'+weightSentence);
+			
+			break;
+			
+			case 'slide':
+			orientationSentence ='Sliding';
+			
+			//nested switch for width			
+		//	console.log('width is:'+width);
+			switch(width){
+				case 'h':
+		//		console.log('got h');
+				var widthSentence = 'Up to 16 feet';
+				break;
+
+				case 'i':
+		//		console.log('got i');
+				var widthSentence = 'Between 16 and 22 feet';
+				break;
+
+				case 'j':
+		//		console.log('got j');
+				var widthSentence = 'Between 22 and 45 feet';
+				break;			
+
+				case 'k':
+		//		console.log('got k');
+				var widthSentence = 'Between 45 and 50 feet';
+				break;		
+				
+			} //end switch
+			console.log('widthSentence is:'+widthSentence);
+			
+			//nested switch for weight
+		//	console.log('weight is:'+weight);
+			switch(weight){
+				case 'c':
+				var weightSentence = 'Up to 300 pounds';
+				break;
+
+				case 'd':
+				var weightSentence = 'Between 300 and 500 pounds';
+				break;
+
+				case 'e':
+				var weightSentence = 'Between 500 and 1000 pounds';
+				break;
+
+				case 'f':
+				var weightSentence = 'Between 1000 and 2000 pounds';
+				break;				
+
+				case 'g':
+				var weightSentence = 'Between 2000 and 2500 pounds';
+				break;
+				
+			} //end switch			
+		//	console.log('weightSentence is:'+weightSentence);
+			
+			break;			
+		
+		} //end switch		
+		
+
+		
+		//result sentence
+		var baseSentence ='The Recommended Eagle Gate Operator for your <strong>'+tipologySentence+' '+orientationSentence+'</strong> gate measuring <strong>'+widthSentence+'</strong> and weighting <strong>'+weightSentence+'</strong> is the:';
+
+
+		
+		
+		//display results
+		hideAllSteps();
+		$('#ewresultTextHeadline').html(baseSentence);
+		
+		$('#ewresults').show();
+		
+		
+	} //end function
+	
+	
+	
+	function hideAllSteps(){
+	$('#ewfirstpage').hide();
+	$('#ewslideswing').hide();
+	$('#ewtipology').hide();
+	$('#ewlengthheight').hide();
+	$('#ewresults').hide();
+	
+	} //end function
+
+	function showFirstPage(){
+		hideAllSteps();
+		$('#ewfirstpage').show();
+	} //end function
+
+	
+	function showWidthHeight(){
+		hideAllSteps();
+		$('#ewtipology').show();
+	} //end function
+	
+	function showTipology(){
+		hideAllSteps();
+		$('#ewtipology').show();
+	} //end function
+	
+	function showSlideSwing(){
+		hideAllSteps();
+		$('#ewslideswing').show();
+	} //end function
+	
+	
+	function showWidthLength(){
+		hideAllSteps();
+		//clear values for width and length radios
+		clearWLradios();
+		$('#ewlengthheight').show();
+	} //end function
+	
+//should hide all result layers
+	function hideAllResultLayers(layersArr){
+		for(var i in layersArr){
+			$('#'+layersArr[i]).hide();
+		} //end for
+	
+	} //end function
+	
+	function highlightResults(layersArr){
+		hideAllResultLayers(resultLayers);
+		for(var i in layersArr){
+			$('#'+layersArr[i]).show();
+		} //end for
+	
+	} //end function
+	
+	function clearWLradios(){
+		$('input[name=ewweight]').prop('checked', false);
+		$('input[name=ewheight]').prop('checked', false);
+
+	} //end function
+	
+//-->
+</script>
+
+<div id="eagleWizard">
+<form name="" action="">
+	<div id="ewfirstpage">
+	<div class="pagecontainer">
+	<h3 class="ewwiztitle">What Gate Operator is Right for me?</h3>
+	
+	<p>Three questions guide you through the selection and specification of the right Eagle Gate Operator.</p>
+	<p>Installed correctly, the Eagle Gate Operator right for your application will provide years of trouble-free operation.</p>
+	
+	</div><!-- end page container -->
+		
+		<div class="ewbuttonscontainer">
+		<button id="ewfirstnext">Next</button>
+		</div><!-- end buttonscontainer -->
+	</div>
+	<div id="ewtipology">
+		<div class="pagecontainer">
+	<h3 class="ewwiztitle">What Gate Operator is Right for me?</h3>
+	<p>What Type of Installation is your gate?</p>
+	
+	<table class="ewwiztable">
+	<tr>
+	<td><span class="ewTipologyCommercial"><input type="radio" name="ewinstallation" value="a" class="ewtipologyRB"/>Commercial</span></td>
+	<td><span class="ewTipologyResidential"><input type="radio" name="ewinstallation" value="b" class="ewtipologyRB"/>Residential</span></td>
+	<td></td>
+	
+	</tr>
+	</table>
+	
+	<input type="hidden" name="ewgateinstallation" value=""/>
+	</div><!-- end page container -->
+		
+			<div class="ewbuttonscontainer">
+		<button id="ewtipologyprev">Back</button>
+
+		</div><!-- end buttonscontainer-->
+	</div><!-- end ewtipology -->
+
+	<div id="ewslideswing">
+		<div class="pagecontainer">
+	<h3 class="ewwiztitle">What Gate Operator is Right for me?</h3>
+	<p>Does Your Gate Slide or Swing?</p>
+	
+	<table class="ewwiztable">
+	<tr>
+	<td><span class="ewOrientationSlide"><input type="radio" name="eworientation" value="slide" class="ewtipologyRB"/>Slide Gate</span></td>
+	<td><span class="ewOrientationSwing"><input type="radio" name="eworientation" value="swing" class="ewtipologyRB"/>Swing Gate</span></td>
+	<td></td>
+	
+	</tr>
+	</table>
+	
+	<input type="hidden" name="ewgateinstallation" value=""/>
+	</div><!-- end page container -->
+		
+			<div class="ewbuttonscontainer">
+		<button id="ewtipologyprev">Back</button>
+
+		</div><!-- end buttonscontainer-->
+	</div><!-- end ewslideswing -->	
+	
+	
+	
+	
+	<div id="ewlengthheight">
+			<div class="pagecontainer">
+	<h3 class="ewwiztitle">What Gate Operator is Right for me?</h3>
+	<p>Does Your Gate Slide or Swing?</p>
+	
+		<div id="ewslidelength">
+			<table>
+			<tr>
+			<td colspan="5">Weight</td>
+			</tr>
+			<tr>
+			<td valign="top"><input type="radio" name="ewweight" value="c"/><br/>Up to 300 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="d"/><br/>Between 300<br/>and 500 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="e"/><br/>Between 500<br/>and 1000 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="f"/><br/>Between 1000<br/>and 2000 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="g"/><br/>Between 2000<br/>and 2500 lbs</td>
+			</tr>
+			<tr><td colspan="5">&nbsp;</td></tr>
+			<tr><td colspan="5">Length</td></tr>
+			<tr>
+			<td valign="top"><input type="radio" name="ewheight" value="h"/><br/>Up to 16&quot;</td>
+			<td valign="top"><input type="radio" name="ewheight" value="i"/><br/>Between 16&quot;<br/>and 22&quot;</td>
+			<td valign="top"><input type="radio" name="ewheight" value="j"/><br/>Between 22&quot;<br/>and 45&quot;</td>
+			<td valign="top"><input type="radio" name="ewheight" value="k"/><br/>Between 45&quot;<br/>and 50&quot;</td>
+			<td valign="top">&nbsp;</td>
+			</tr>
+			</table>
+			
+		</div>
+		<div id="ewswinglength">
+						<table>
+			<tr>
+			<td colspan="4">Weight</td>
+			</tr>
+			<tr>
+			<td valign="top"><input type="radio" name="ewweight" value="c"/><br/>Up to 300 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="d"/><br/>Between 300<br/>and 600 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="e"/><br/>Between 600<br/>and 750 lbs</td>
+			<td valign="top"><input type="radio" name="ewweight" value="f"/><br/>Between 750<br/>and 1000 lbs</td>
+			</tr>
+			<tr><td colspan="4">&nbsp;</td></tr>
+			<tr><td colspan="4">Length</td></tr>
+			<tr>
+			<td valign="top"><input type="radio" name="ewheight" value="g"/><br/>Up to 14&quot;</td>
+			<td valign="top"><input type="radio" name="ewheight" value="h"/><br/>Between 14&quot;<br/>and 18&quot;</td>
+			<td valign="top"><input type="radio" name="ewheight" value="i"/><br/>Between 18&quot;<br/>and 20&quot;</td>
+			<td valign="top">&nbsp;</td>
+			</tr>
+			</table>
+		</div>
+	
+	<input type="hidden" name="ewgateinstallation" value=""/>
+	</div><!-- end page container -->
+			<div class="ewbuttonscontainer">
+		<button id="ewwidthlengthprev">Back</button>
+		<button id="ewwidthlengthnext">Show me Results</button>
+
+		</div><!-- end buttonscontainer-->
+	</div><!-- end ewlengthheight -->
+	<div id="ewresults">
+		<div id="ewresultTextHeadline"></div>
+		<div id="ewresultContainer">
+			<!-- the long list of gates starts here-->
+			<!-- slide gates -->
+				<div id="ewei">
+				<h3 class="ewwiztitle">EAGLE-I</h3>
+				
+				
+				
+				</div><!-- end ewei -->
+				<div id="eweii">
+				<h3 class="ewwiztitle">EAGLE-II</h3>
+				</div><!-- end eweii -->
+				<div id="ewe100">
+				<h3 class="ewwiztitle">EAGLE-100</h3>
+				</div><!-- end ewe100 -->
+				<div id="ewe100dc">
+				<h3 class="ewwiztitle">EAGLE-100-DC</h3>
+				</div><!-- end ewe100dc -->
+				<div id="ewe200">
+				<h3 class="ewwiztitle">EAGLE-200</h3>
+				</div><!-- end ewe200 -->
+				<div id="ewe200dc">
+				<h3 class="ewwiztitle">EAGLE-200-DC</h3>
+				</div><!-- end ewe200dc -->
+				<div id="ewe200dchd">
+				<h3 class="ewwiztitle">EAGLE-200-DC-HD</h3>
+				</div><!-- end ewe200dchd -->
+				<div id="ewe2001hp">
+				<h3 class="ewwiztitle">EAGLE-200-1HP</h3>
+				</div><!-- end ewe2001hp -->
+				<div id="ewe1000dc">
+				<h3 class="ewwiztitle">EAGLE-1000-DC</h3>
+				</div><!-- end ewe1000dc -->
+				<div id="ewe1000fsf">
+				<h3 class="ewwiztitle">EAGLE-1000-FSF </h3>
+				</div><!-- end ewe1000fsf -->
+				<div id="ewe1000fsc">
+				<h3 class="ewwiztitle">EAGLE-1000-FSC</h3>
+				</div><!-- end ewe1000fsc -->
+				<div id="ewe2000">
+				<h3 class="ewwiztitle">EAGLE-2000</h3>
+				</div><!-- end ewe2000 -->
+				<div id="ewe2000fsf">
+				<h3 class="ewwiztitle">EAGLE-2000-FSF</h3>
+				</div><!-- end ewe2000fsf -->
+				<div id="ewe2000fsc">
+				<h3 class="ewwiztitle">EAGLE-2000-FSC</h3>
+				</div><!-- end ewe2000fsc -->
+				<div id="ewe2000dc">
+				<h3 class="ewwiztitle">EAGLE-2000-DC</h3>
+				</div><!-- end ewe2000dc -->
+				<div id="ewe2000apt">
+				<h3 class="ewwiztitle">EAGLE-2000-APT</h3>
+				</div><!-- end ewe2000apt -->
+				<div id="ewe20001hp">
+				<h3 class="ewwiztitle">EAGLE-2000-1HP</h3>
+				</div><!-- end ewe20001hp -->
+				<div id="ewe2000dchd">
+				<h3 class="ewwiztitle">EAGLE-2000-DC-HD</h3>
+				</div><!-- end ewe2000dchd -->
+				<div id="ewe2000apt15hp">
+				<h3 class="ewwiztitle">EAGLE-2000-APT-1.5HP</h3>
+				</div><!-- end ewe2000apt15hp -->
+				
+			<!-- swing gates -->
+		
+			<!-- the long list of gates stops here-->
+		</div>
+		
+		<div id="ewwizardPopUp">
+		
+		</div>
+		
+		
+	</div><!-- end ewresults-->
+</form>
+</div>
+</body></html>
