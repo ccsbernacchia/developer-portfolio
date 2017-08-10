@@ -5,7 +5,7 @@
  * 
  * Basic input sanitizing functions
  *
- * @author: Simone Bernacchia <simonebernacchia@clearchannel.com>
+ * @author: Simone Bernacchia <simonebernacchia@gmail.com>
  * 
  */
  
