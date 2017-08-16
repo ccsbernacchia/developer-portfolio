@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>Test for Jennifer Siemens made by Bernacchia Simone</title>
+<script type="text/javascript">
+<!--
+/**
+ * Test for Recruiter
+ * made by Bernacchia Simone <simonebernacchia@gmail.com>
+ * 11/03/2011 - 12:44am
+ *
+ *
+ */
+
+
+//regular expression for cleaning palindrome 
+var cleanerRegEx = /[\t\r\s.,:;*\?\!\/\[\]]/g;
+
+/**
+ * reverse text object, adapted from bytemycode.com
+ * 
+ * @param myText = text to be reversed
+ * @return string - the reversed text
+ */
+function reverseText(mytext){
+ splitext = mytext.split("");
+ revertext = splitext.reverse();
+ reversed = revertext.join("");
+return reversed;
+}
+
+/**
+ * clear the palindrome textfield from all non text characters
+ * 
+ * @param regex = regular expression to clear text
+ * @param valueToReplace = the text to be cleaned
+ * @return string - the cleaned text
+ */
+function clearThePalindrome(regex,valueToReplace) {
+
+  var re = regex;
+  var myValueToReplace = valueToReplace;
+  var myValueReplaced = myValueToReplace.replace(re,'');
+	return myValueReplaced;
+  } //end function
+
+/**
+ *calculate key counts
+ *
+ */
+function calculateKeyCounts(){
+	//get the value of the textarea
+	var textareaEl = document.getElementById('keycountsdata').value;
+
+
+//splits the textarea in array
+textAreaArr = textareaEl.split("\n");
+
+//create a temporary array where to store all names,will be uniquified later
+var tempNamesArr = [];
+for(var i in textAreaArr){
+	namesValuesTempArr = textAreaArr[i].split(',');
+	tempNamesArr.push(namesValuesTempArr[0]);
+} //end for
+	namesArr = array_unique(tempNamesArr); //will remove all similar and have a list of unique names
+
+	
+	//associative array that will contain the results
+	var resultsArr = [];
+	
+	//define associatuve arrays that will contain result
+	for(var l in namesArr){
+		resultsArr[namesArr[l]] = 0;
+	} //end for
+	
+	//double cycle for calculating values
+	for(var j in textAreaArr){
+		valuesTempArr = textAreaArr[j].split(',');
+		for(var k in namesArr){
+			
+			if(valuesTempArr[0] == namesArr[k]){
+
+				resultsArr[namesArr[k]] += parseInt(valuesTempArr[1]);
+			} //end if
+		} //end for
+	} //end for
+	
+	alert(parseTextAreaResult(resultsArr));
+
+} //end function
+
+
+/**
+ * parse result for calculateKeyCounts
+ *
+ * @param resArr = the associative array with result
+ * @return string - the formatted response
+ */
+function parseTextAreaResult(resArr){
+var resultString = '';
+	for(var i in resArr){
+		resultString+='the total for '+i+' is '+resArr[i]+'\n';
+	}
+return resultString;
+}
+
+/**
+ * check the palindrome and outputs result
+ *
+ */
+function checkPalindrome(){
+ var myRegex = cleanerRegEx;
+ var myTextField = document.getElementById('palindrometext').value;	
+ var textCleaned = clearThePalindrome(cleanerRegEx,myTextField).toLowerCase();
+ var reverseTextCleaned = reverseText(textCleaned).toLowerCase();
+ if(textCleaned === reverseTextCleaned){
+ alert('this phrase is a palindrome');
+ } else {
+ alert('not a palindrome');
+ }
+} //end function
+
+
+/**
+ * array_unique function from christianheilmann.com
+ * 
+ * @param ar = the array to be made unique
+ * @output Array - the uniquified array
+ */
+function array_unique(ar){
+	if(ar.length && typeof ar!=='string'){
+		var sorter = {};
+		var out = [];
+		for(var i=0,j=ar.length;i<j;i++){
+			if(!sorter[ar[i]+typeof ar[i]]){
+				out.push(ar[i]);
+				sorter[ar[i]+typeof ar[i]]=true;
+			}
+		} //end for
+	} //end if
+return out || ar;
+} //end function
+
+// -->
+</script>
+</head>
+<body>
+<form id="wonderfulCalculations" onSubmit="javascript:return false;">
+<fieldset>
+<h3>Key Counts</h3>
+<label>Insert values in form of [name,value] separated by a new line</label>
+<textarea name="keycountsdata" id="keycountsdata"></textarea>
+<button id="keyCountsButton" onClick="calculateKeyCounts();">Calculate</button>
+</fieldset>
+
+<fieldset>
+<h3>Palindrome</h3>
+<label>Insert a phrase, will check if is a palindrome</label>
+<input type="text" name="palindrometext" id="palindrometext" value=""/>
+<button id="palindromeButton" onClick="checkPalindrome();">check</button>
+</fieldset>
+
+
+</form>
+</body>
+</html>
