@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!-- ng-bind -->
+<html lang="en" ng-app=""><!-- ng-app can be in html oo a div inside-->
+<!-- <html lang="en" ><!-- ng-app can be in html oo a div inside-->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+<div><!-- ng-app can be here too-->
+<textarea ng-model="name"></textarea><!-- ng-model work with specific input types, like input,textarea,select NOT with contenteditable=true -->
+<div ng-bind="name"></div>
+</div>
+</body>
+</html>

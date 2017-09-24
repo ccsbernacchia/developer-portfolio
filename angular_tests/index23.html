@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- $http service is analogous to the xmlhttp object in javascript that is the base of AJAX-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en"><!-- ng-app name will be added in angular.module in the controller-->
+
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial| Services</title>
+<!-- Services and factories will allow you to have data in different controllers - like an array of employees; having multiple requests is not practical, rather would be nice to have a single http request and handle that one alone; that is waht services are for -technically singleton, only one istance is created and a reference is passed -->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<!-- <script src="angular-route.min.js"></script> -->
+<script src="controller8.js"></script>
+</head>
+<!-- so we seen how just adding an input text with the right ng-model and two braces makes the field go populated: how is working? -->
+<body ng-app="mainApp" ng-controller="app">
+
+	<button ng-click="generateRandom()">Random Number</button>
+<br/>
+{{randomNumber}} <br/>
+{{randomNumber2}}
+
+</body>
+</html>

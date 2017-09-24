@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- directives: ng-model or data-ng-model, ng-bind... are directives 
+using data-ng-[] makes a valid HTML5-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en" ng-app="myLanguageApp"><!-- ng-app name will be added in angular.module in the controller-->
+<!-- <html lang="en" ><!-- ng-app can be in html oo a div inside-->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial|introduction to Controllers</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+
+<!-- ng-controller gives a particular name to the -->
+
+<div ng-controller="languages">
+	Select your favorite code language: 
+	<button ng-click="php()">php</button> 
+	<button ng-click="javascript()">Javascript</button><!-- ng-click add action onclick -->
+	<button ng-click="blitzbasic()">Blitz Basic</button> 
+	<button ng-click="amos()">AMOS</button>
+	
+	<p>you selected: {{myFavLanguage}}</p>
+</div>
+<script>
+//our controller
+var application = angular.module('myLanguageApp',[]); //this add the app defined on ng-app to the module; empty array is made to add dependencies
+application.controller('languages',['$scope',function($scope){
+	$scope.myFavLanguage = 'None';
+	$scope.php = function(){
+		$scope.myFavLanguage = 'PHP';
+	} //end function
+	
+	$scope.javascript = function(){
+		$scope.myFavLanguage = 'Javascript';
+	} //end function
+	
+		$scope.blitzbasic = function(){
+		$scope.myFavLanguage = 'Blitz Basic';
+	} //end function
+	
+		$scope.amos = function(){
+		$scope.myFavLanguage = 'AMOS';
+	} //end function
+}]); //end controller 
+//the above add controller languages to the application in same way as we add myLanguageApp to module - $scope is a built-in variable of Angular js
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- directives: ng-model or data-ng-model, ng-bind... are directives 
+using data-ng-[] makes a valid HTML5-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en" ng-app=""><!-- ng-app can be in html oo a div inside-->
+<!-- <html lang="en" ><!-- ng-app can be in html oo a div inside-->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial|more on expressions and directives</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+<div><!-- ng-app can be here too-->
+<div ng-init="language='Italiano'">
+Your language is: <input type="text" ng-model="language"/>{{language}}<!-- note:if you put quotes in an expression is like a string so will display the quoted text-->
+</div>
+</body>
+</html>

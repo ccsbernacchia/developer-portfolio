@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- $http service is analogous to the xmlhttp object in javascript that is the base of AJAX-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en"><!-- ng-app name will be added in angular.module in the controller-->
+<!-- <html lang="en" ><!-- Filters are used to filter data on the screen -->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial| advanced search box</title>
+<!-- ng-include will help to split and organize different sections of the document same as include in php-->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<!-- <script src="angular-route.min.js"></script> -->
+<script src="controller4d.js"></script>
+</head>
+<body ng-app="mainApp">
+
+
+<div ng-controller="people">
+<ul>
+<h2>Names and age of people in this home,not complete nor accurate</h2>
+<li ng-repeat="person in persons|filter:globalSearch"><!-- persons will be filtered by the controller globalSearch-->
+
+<b>Name: </b>{{person.Name}} <b>Age: </b>{{person.Age}} <b>Favorite Color:</b>{{person.fav_color}}
+
+
+</li>
+
+</ul>
+
+</div>
+
+<div id="searchBoxes">
+Global Search filter: <input type="text" ng-model="globalSearch.$" /><br/><!-- $ filters all parameters-->
+<!-- others filter just the parameter as directed or get empty-->
+Name Search filter: <input type="text" ng-model="globalSearch.Name" /><br/>
+Age Search filter: <input type="text" ng-model="globalSearch.Age" /><br/>
+Job Search filter: <input type="text" ng-model="globalSearch.job" /><br/>
+Color Search filter: <input type="text" ng-model="globalSearch.fav_color" /><br/>
+
+</div>
+
+</body>
+</html>

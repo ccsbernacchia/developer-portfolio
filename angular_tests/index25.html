@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- $http service is analogous to the xmlhttp object in javascript that is the base of AJAX-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en"><!-- ng-app name will be added in angular.module in the controller-->
+
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial| Providers</title>
+<!-- Services and Factories come under Providers -what can be done with services and factories can be done with providers as well with more flexibility-->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<!-- <script src="angular-route.min.js"></script> -->
+<script src="controller10.js"></script>
+</head>
+<!-- Just as services, factories are singletons so they will return the same value from random number - how (if we want to) fix that? -->
+
+
+<body ng-app="mainApp" ng-controller="app">
+	{{greetMessage}}
+
+
+</body>
+</html>

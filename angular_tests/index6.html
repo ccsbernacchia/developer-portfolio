@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- directives: ng-model or data-ng-model, ng-bind... are directives 
+using data-ng-[] makes a valid HTML5-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en" ng-app=""><!-- ng-app can be in html oo a div inside-->
+<!-- <html lang="en" ><!-- ng-app can be in html oo a div inside-->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial|ng-repeat</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+<div ng-init="myFavLan=[{name:'PHP',extension:'.php'},{name:'JavaScript',extension:'.js'},{name:'Blitz Basic',extension:'.bb'},{name:'AMOS',extension:'.amos'}]"><!-- the one between square braces is an array, curly braces {} inside the [] make it an array of objects -->
+<p ng-repeat="language in myFavLan">
+Name: {{language.name}}<br/>
+Ext: {{language.extension}}<br/>
+
+</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!-- routing enable a navigation via RESTful interface routing URL in the clinet side via simple steps-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en"><!-- ng-app name will be added in angular.module in the controller-->
+<!-- <html lang="en" ><!-- Filters are used to filter data on the screen -->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial| Login App - part 2</title>
+<!-- ng-include will help to split and organize different sections of the document same as include in php-->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src="angular-route.min.js"></script>
+<script src="controller3b.js"></script>
+</head>
+<body ng-app="mainApp">
+<div ng-view></div><!-- this will contain all our data and is handled by the controller in controller3.js-->
+
+</body>
+</html>

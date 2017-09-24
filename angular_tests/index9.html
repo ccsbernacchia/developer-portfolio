@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!-- directives: ng-model or data-ng-model, ng-bind... are directives 
+using data-ng-[] makes a valid HTML5-->
+<!-- ng-init let you store data in your HTML itself to be used in Angular, usually not employed due to controllers -->
+<html lang="en"><!-- ng-app name will be added in angular.module in the controller-->
+<!-- <html lang="en" ><!-- Filters are used to filter data on the screen -->
+<head>
+<meta charset="UTF-8">
+<title>Angular JS Tutorial|introduction to Filters</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+Your name: <input type="text" ng-model="name"/><br/>
+{{'Welcome ' + name | uppercase }}<br/>
+<!-- i added a pipe | to the double brace and the variabla after (uppercase,lowercase,etc. is a filter  i.e. | uppercase -->
+Currency: <input type="text" ng-model="price"/><br/>
+Total: {{ price | currency:"Eur: ":0 }}</br>
+<!-- currency will format numbers ONLY as an amount and leave letters out; adding :"name currency" is possible to change the default $ -->
+<!-- adding another colon and :0 [or another number] is limiting the number of decimals; default is 2 -->
+Number: <input type="text" ng-model="number"/><br/>
+Total: {{ number | number:2 }}</br>
+<!-- number work similarly to currency but without adding the currency sign in front -->
+
+</body>
+</html>
